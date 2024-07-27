@@ -12,7 +12,7 @@ pipeline {
         stage('Build') {
             steps {
                 script{
-                    sh 'docker build --target build --tag ${IMAGE_NAME}:${VERSION}-build .'
+                    sh 'docker build --target build --tag ${IMAGE_NAME}:${VERSION}-build -f welcome/app/bookinfo/src/productpage/Dockerfile welcome/app/bookinfo/src/productpage'
                 } 
             }
         }
@@ -20,7 +20,7 @@ pipeline {
         stage('Test') {
             steps {
                script{
-                sh 'docker build --target test --tag ${IMAGE_NAME}:${VERSION}-test .'
+                sh 'docker build --target test --tag ${IMAGE_NAME}:${VERSION}-test -f welcome/app/bookinfo/src/productpage/Dockerfile welcome/app/bookinfo/src/productpage'
                 sh 'docker run --rm ${IMAGE_NAME}:${VERSION}-test'
                }
             }
