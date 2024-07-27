@@ -4,7 +4,7 @@ pipeline {
     environment {
         IMAGE_NAME = 'rea-cicd-image'
         VERSION = "v${env.BUILD_NUMBER}"
-        REPO = 'jenkins-project'
+        REPO = 'rea-cicd-image'
         CREDENTIALS_ID = 'nirrea839'
     }
 
