@@ -26,6 +26,18 @@ pipeline {
             }
         }
 
+
+         stage('Run') {
+            steps {
+                script {
+                    sh "docker build --target run --tag ${REPO}/${IMAGE_NAME}:${VERSION} -f welcome/app/bookinfo/src/productpage/Dockerfile welcome/app/bookinfo/src/productpage"
+                    sh "docker run -d -p 9080:9080 ${REPO}/${IMAGE_NAME}:${VERSION}"
+                }
+            }
+        }
+
+
+        /*
         stage('Push') {
             steps {
                 script {
@@ -36,4 +48,5 @@ pipeline {
             }
         }
     }
+    */
 }
