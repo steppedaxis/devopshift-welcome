@@ -1,0 +1,53 @@
+pipeline {
+    agent any
+    
+    environment {
+        IMAGE_NAME = 'rating-image'
+        VERSION = "v${env.BUILD_NUMBER}"
+        REPO = ' nirrea839'
+        CREDENTIALS_ID = 'nirrea839'
+    }
+
+    stages {
+        stage('Build') {
+            steps {
+                script {
+                    sh "docker build --target build --tag ${IMAGE_NAME}:${VERSION}-build -f welcome/app/bookinfo/src/rating/Dockerfile welcome/app/bookinfo/src/rating"
+                }
+            }
+        }
+
+        stage('Test') {
+            steps {
+                script {
+                    sh "docker build --target lint-test --tag ${IMAGE_NAME}:${VERSION}-lint-test -f welcome/app/bookinfo/src/rating/Dockerfile welcome/app/bookinfo/src/rating"
+                    sh "docker run --rm ${IMAGE_NAME}:${VERSION}-lint-test"
+                }
+            }
+        }
+
+
+         stage('Run') {
+            steps {
+                script {
+                    sh "docker build --target run --tag ${REPO}/${IMAGE_NAME}:${VERSION} -f welcome/app/bookinfo/src/rating/Dockerfile welcome/app/bookinfo/src/rating"
+                }
+            }
+        }
+
+
+        
+        
+        stage('Push') {
+            steps {
+                script {
+                    docker.withRegistry('https://index.docker.io/v1/', "${CREDENTIALS_ID}") {
+                        sh "docker push ${REPO}/${IMAGE_NAME}:${VERSION}"
+                    }
+                }
+            }
+        }
+        
+    }
+    
+}
