@@ -1,11 +1,18 @@
 pipeline {
     agent any
-
+    environment{
+        IMAGE_NAME = 'my-docker-image'
+        VERSION = "v${env.BUILD_NUMBER}"
+        REPO = 'my-docker-repo'
+        CREDENTIALS_ID = 'docker-credentials'
+    }
+    
+    
     stages {
         stage('Build') {
             steps {
                 script{
-                    sh 'docker build --target build --tag ${IMAGE_NAME}:${VERSION}-build.'
+                    sh 'docker build --target build --tag ${IMAGE_NAME}:${VERSION}-build .'
                 } 
             }
         }
@@ -13,7 +20,7 @@ pipeline {
         stage('Test') {
             steps {
                script{
-                sh 'docker build --target test --tag ${IMAGE_NAME}:${VERSION}-test.'
+                sh 'docker build --target test --tag ${IMAGE_NAME}:${VERSION}-test .'
                 sh 'docker run --rm ${IMAGE_NAME}:${VERSION}-test'
                }
             }
