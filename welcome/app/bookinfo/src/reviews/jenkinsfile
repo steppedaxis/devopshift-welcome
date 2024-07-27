@@ -1,0 +1,54 @@
+pipeline {
+    agent any
+    
+    environment {
+        IMAGE_NAME = 'ratings-image'
+        VERSION = "v${env.BUILD_NUMBER}"
+        REPO = ' nirrea839'
+        CREDENTIALS_ID = 'nirrea839'
+        SNYK_TOKEN = 'f5b5e996-825e-45ba-8394-9cc3b05b2cbb'
+    }
+
+    stages {
+        stage('Build') {
+            steps {
+                script {
+                    sh "docker build --target builder --tag ${IMAGE_NAME}:${VERSION}-build -f welcome/app/bookinfo/src/reviews/Dockerfile welcome/app/bookinfo/src/reviews"
+                }
+            }
+        }
+
+        stage('Security') {
+            steps {
+                script {
+                    sh 'docker build --target security --build-arg SNYK_TOKEN=${SNYK_TOKEN} --tag ${IMAGE_NAME}:${VERSION}-security -f welcome/app/bookinfo/src/reviews/Dockerfile welcome/app/bookinfo/src/reviews'
+                    sh 'docker run --rm ${IMAGE_NAME}:${VERSION}-security'
+                }
+            }
+        }
+
+
+         stage('Run') {
+            steps {
+                script {
+                    sh "docker build --target run --tag ${REPO}/${IMAGE_NAME}:${VERSION} -f welcome/app/bookinfo/src/reviews/Dockerfile welcome/app/bookinfo/src/reviews"
+                }
+            }
+        }
+
+
+        
+        
+        stage('Push') {
+            steps {
+                script {
+                    docker.withRegistry('https://index.docker.io/v1/', "${CREDENTIALS_ID}") {
+                        sh "docker push ${REPO}/${IMAGE_NAME}:${VERSION}"
+                    }
+                }
+            }
+        }
+        
+    }
+    
+}
