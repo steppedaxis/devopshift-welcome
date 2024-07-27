@@ -30,5 +30,5 @@ COPY --from=build /opt/microservices /opt/microservices
 EXPOSE 9080
 
 
-CMD ["gunicorn", "-b", "[::]:9080", "productpage:app", "-w", "8", "--keep-alive", "2", "-k", "gevent"]
+CMD ["/usr/local/bin/gunicorn", "-b", "[::]:9080", "productpage:app", "-w", "8", "--keep-alive", "2", "-k", "gevent"]
 USER 1000
