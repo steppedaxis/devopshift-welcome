@@ -4,7 +4,7 @@ pipeline {
     environment {
         IMAGE_NAME = 'rea-cicd-image'
         VERSION = "v${env.BUILD_NUMBER}"
-        REPO = 'rea-cicd-image'
+        REPO = ' nirrea839'
         CREDENTIALS_ID = 'nirrea839'
     }
 
