@@ -23,13 +23,12 @@ RUN python -m unittest discover
 
 
 #---------run stage---------
-FROM python:3.12.1-slim AS run
+FROM build AS run
 WORKDIR /opt/microservices
 COPY --from=build /usr/local/lib/python3.12/site-packages /usr/local/lib/python3.12/site-packages
 COPY --from=build /opt/microservices /opt/microservices
 EXPOSE 9080
 
-RUN pip install gunicorn
 
 
 CMD ["gunicorn", "-b", "[::]:9080", "productpage:app", "-w", "8", "--keep-alive", "2", "-k", "gevent"]
