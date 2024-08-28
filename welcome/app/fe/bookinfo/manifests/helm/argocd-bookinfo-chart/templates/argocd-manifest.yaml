@@ -24,5 +24,29 @@ spec:
       - type: {{ .Values.argoApplication.syncfail }}
         command: ["/bin/sh", "-c"]
         args: ["echo SyncFail hook executed"]
+      preSync: |-
+        apiVersion: batch/v1
+        kind: Job
+        metadata:
+          name: my-pre-sync-hook
+        spec:
+          template:
+            spec:
+              containers:
+                - name: my-pre-sync-container
+                  image: my-image
+              restartPolicy: OnFailure
+      postSync: |-
+        apiVersion: batch/v1
+        kind: Job
+        metadata:
+          name: my-post-sync-hook
+        spec:
+          template:
+            spec:
+              containers:
+                - name: my-post-sync-container
+                  image: my-image
+              restartPolicy: OnFailure      
 {{- end }}
 
