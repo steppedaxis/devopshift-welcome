@@ -23,7 +23,7 @@ spec:
     hooks:
       - type: {{ .Values.argoApplication.syncfail }}
         command: ["/bin/sh", "-c"]
-        args: ["echo SyncFail hook executed"]
+        args: ["echo SyncFail hook executed yoooo"]
       - type: PreSync
         name: pre-sync-job
         manifest: | 
