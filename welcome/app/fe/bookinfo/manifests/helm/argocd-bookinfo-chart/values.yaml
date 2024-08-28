@@ -1,10 +1,10 @@
 
 
 argoApplication:
-  install: False
+  install: true
   name: bookinfo-application
   project: default
-  repoURL: 'https://github.com/yourusername/yourrepository'
+  repoURL: 'https://github.com/steppedaxis/devopshift-welcome'
   path: ./welcome/app/fe/bookinfo/manifests/helm/bookinfo-chart
   targetRevision: argocd-workshop
   server: 'https://kubernetes.default.svc'

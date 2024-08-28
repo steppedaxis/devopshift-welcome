@@ -1,4 +1,9 @@
 replicaCount: 1
+replicaCount-details: 2
+replicaCount-productPage: 2
+replicaCount-ratings: 2
+replicaCount-reviews: 2
+
 
 image:
   tag: 1.19.1
