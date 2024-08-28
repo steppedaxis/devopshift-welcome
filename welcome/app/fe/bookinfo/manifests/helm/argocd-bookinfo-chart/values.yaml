@@ -11,6 +11,6 @@ argoApplication:
   namespace: default
   syncPolicy:
   prune: true
-  selfHeal: false
+  selfHeal: true
   CreateNamespace: true 
   syncfail: true
