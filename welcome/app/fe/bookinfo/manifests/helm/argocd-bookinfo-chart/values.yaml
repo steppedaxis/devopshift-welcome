@@ -12,3 +12,5 @@ argoApplication:
   syncPolicy:
   prune: true
   selfHeal: true
+  CreateNamespace: true 
+  syncfail: true
