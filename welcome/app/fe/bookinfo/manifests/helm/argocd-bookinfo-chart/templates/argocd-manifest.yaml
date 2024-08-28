@@ -20,22 +20,5 @@ spec:
       selfHeal: {{ .Values.argoApplication.selfHeal }}
     syncOptions: 
       - CreateNamespace={{ .Values.argoApplication.CreateNamespace }}
-    hooks:
-      - type: PreSync
-        kind: job
-        manifest: |
-          apiVersion: batch/v1
-          kind: Job
-          metadata:
-            name: pre-sync-job
-          spec:
-            template:
-              spec:
-                containers:
-                - name: example
-                  image: busybox
-                  command: ["/bin/sh", "-c"]
-                  args: ["echo PreSync hook executed"]
-                restartPolicy: Never
 {{- end }}
 
