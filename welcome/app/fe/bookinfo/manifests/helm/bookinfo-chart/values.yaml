@@ -1,5 +1,5 @@
 replicaCount: 1
-replicaCount_details: 5
+replicaCount_details: 2
 replicaCount_productPage: 2
 replicaCount_ratings: 2
 replicaCount_reviews: 2
