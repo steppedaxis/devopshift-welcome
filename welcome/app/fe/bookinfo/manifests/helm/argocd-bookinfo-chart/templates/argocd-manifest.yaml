@@ -29,6 +29,9 @@ spec:
         kind: Job
         metadata:
           name: my-pre-sync-hook
+          annotations:
+            argocd.argoproj.io/hook: PreSync
+            argocd.argoproj.io/hook-delete-policy: HookSucceeded
         spec:
           template:
             spec:
@@ -41,6 +44,9 @@ spec:
         kind: Job
         metadata:
           name: my-post-sync-hook
+          annotations:
+            argocd.argoproj.io/hook: PostSync
+            argocd.argoproj.io/hook-delete-policy: HookSucceeded
         spec:
           template:
             spec:
