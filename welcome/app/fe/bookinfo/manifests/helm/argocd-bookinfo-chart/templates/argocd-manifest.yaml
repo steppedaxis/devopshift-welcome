@@ -21,14 +21,21 @@ spec:
     syncOptions: 
       - CreateNamespace={{ .Values.argoApplication.CreateNamespace }}
     hooks:
-      - type: {{ .Values.argoApplication.syncfail }}
-        command: ["/bin/sh", "-c"]
-        args: ["echo SyncFail hook executed yoooo"]
       - type: PreSync
-        command: ["/bin/sh", "-c"]
-        args: ["echo PreSync hook executed yoooo"]
-      - type: PostSync
-        command: ["/bin/sh", "-c"]
-        args: ["echo Postsync hook executed yoooo"]      
+        kind: job
+        manifest: |
+          apiVersion: batch/v1
+          kind: Job
+          metadata:
+            name: pre-sync-job
+          spec:
+            template:
+              spec:
+                containers:
+                - name: example
+                  image: busybox
+                  command: ["/bin/sh", "-c"]
+                  args: ["echo PreSync hook executed"]
+                restartPolicy: Never
 {{- end }}
 
